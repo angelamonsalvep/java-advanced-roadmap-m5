@@ -1,0 +1,42 @@
+# ==========================================
+# Archivo .gitignore para Proyectos Java SE
+# ==========================================
+
+# 1. Archivos Compilados y Binarios (¡Lo más importante!)
+*.class
+*.jar
+*.war
+*.ear
+*.nar
+
+# 2. Carpetas de salida de compilación manual
+/bin/
+/build/
+/out/
+
+# 3. Configuraciones de Entornos de Desarrollo (IDEs)
+# -- VS Code
+.vscode/
+*.code-workspace
+
+# -- IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+
+# -- Eclipse
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings/
+.springBeans
+
+# 4. Archivos del Sistema Operativo (Basura de Windows/Mac)
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
