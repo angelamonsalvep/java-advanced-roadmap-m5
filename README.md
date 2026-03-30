@@ -9,6 +9,7 @@ Antes de codificar, debes preparar tu sistema. Lee los archivos en este orden:
 1.  **[01-Ecosistema-de-Versiones.md](00-Configuracion-Inicial/01-Ecosistema-de-Versiones.md)**: Entiende las versiones LTS y distribuciones.
 2.  **[02-Guia-de-Instalacion-JDK.md](00-Configuracion-Inicial/02-Guia-de-Instalacion-JDK.md)**: Instala Java 8, 11, 17 y 21.
 3.  **[03-Configuracion-del-IDE.md](00-Configuracion-Inicial/03-Configuracion-del-IDE.md)**: Configura IntelliJ, Eclipse, VSC o NetBeans.
+4.  **[GUIA-JAVAFX-INTELLIJ.md](00-Configuracion-Inicial/GUIA-JAVAFX-INTELLIJ.md)**: Crea aplicaciones de escritorio modernas con JavaFX.
 
 ### Paso 2: Ruta de Aprendizaje Semanal (Directorio `Semanas/`)
 Cada semana tiene una estructura interna fija:

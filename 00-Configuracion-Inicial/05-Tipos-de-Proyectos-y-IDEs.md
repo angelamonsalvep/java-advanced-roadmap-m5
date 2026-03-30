@@ -12,7 +12,7 @@ No todos los proyectos Java son iguales. Dependiendo del objetivo, el IDE (Integ
 | :--- | :--- | :--- | :--- |
 | **Enterprise (Jakarta EE/Spring)** | Grandes sistemas bancarios, CRMs, APIs masivas. | **IntelliJ IDEA (Ultimate)** | Su análisis de código, integración con servidores (JBoss, Tomcat) y soporte para Spring/JPA es inigualable. |
 | **Microservicios / Cloud Native** | Apps ligeras, Docker, Kubernetes, Quarkus, Micronaut. | **VS Code / IntelliJ** | VS Code es excelente si buscas ligereza y trabajas mucho con contenedores y scripts. IntelliJ es mejor para refactorización profunda. |
-| **Desktop (GUI)** | Apps de escritorio con Swing, JavaFX o SWT. | **Eclipse / NetBeans** | NetBeans tiene el mejor diseñador visual "drag-and-drop" (Matisse). Eclipse es el estándar para SWT. |
+| **Desktop (GUI)** | Apps de escritorio con Swing, JavaFX o SWT. | **Eclipse / NetBeans / IntelliJ** | NetBeans destaca por su diseñador visual. IntelliJ es hoy el estándar para **JavaFX** (Ver [Guía de JavaFX](./GUIA-JAVAFX-INTELLIJ.md)). |
 | **Android** | Desarrollo móvil nativo. | **Android Studio** | Es el estándar oficial basado en IntelliJ, optimizado para el ciclo de vida de Android. |
 | **Sistemas Embebidos / IoT** | Raspberry Pi, sensores, sistemas de control industrial. | **Eclipse / VS Code** | Eclipse tiene una larga historia en sistemas embebidos y C/C++ cross-compilation. |
 | **Big Data / Data Science** | Procesamiento con Spark, Flink o Hadoop. | **IntelliJ IDEA** | El mejor soporte para Scala (muy usado en Big Data) y manejo de grandes repositorios de código. |
