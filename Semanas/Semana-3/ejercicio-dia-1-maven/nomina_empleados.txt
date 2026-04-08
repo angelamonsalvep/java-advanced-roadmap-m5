@@ -1,0 +1,3 @@
+101,Ana García,2500.5
+102,Carlos López,3100.0
+103,Elena Rivas,2850.75

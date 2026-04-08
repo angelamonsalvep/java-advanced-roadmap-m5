@@ -1,0 +1,10 @@
+--- Diagnóstico: Helpful NullPointerExceptions (JEP 358) ---
+
+En Java 8 (Legacy), una NullPointerException solo indica la línea de código donde ocurrió el error, sin especificar qué objeto era nulo. Esto obliga a realizar un proceso de depuración manual lento, especialmente en líneas con múltiples llamadas encadenadas como 'a.getB().getC()'.
+
+Desde Java 17, las "Helpful NullPointerExceptions" analizan el bytecode y proporcionan un mensaje detallado que indica exactamente qué variable era 'null' y por qué se detuvo el flujo.
+
+Ventajas en producción:
+1. Resolución rápida de errores: No requiere adjuntar un debugger para saber qué falló.
+2. Identificación precisa: Diferencia si el nulo fue 'a' o el retorno de 'getB()' en una sola línea.
+3. Ahorro de tiempo: Reduce drásticamente el tiempo de análisis de logs complejos.
