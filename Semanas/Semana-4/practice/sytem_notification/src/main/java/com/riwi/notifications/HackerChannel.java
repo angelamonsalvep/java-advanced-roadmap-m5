@@ -1,4 +1,4 @@
-package com.riwi;
+package com.riwi.notifications;
 
 public class HackerChannel{
 
