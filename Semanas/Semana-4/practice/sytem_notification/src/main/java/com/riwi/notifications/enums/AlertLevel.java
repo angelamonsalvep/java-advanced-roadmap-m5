@@ -1,4 +1,4 @@
-package com.riwi.notifications;
+package com.riwi.notifications.enums;
 
 public enum AlertLevel {
     INFO(1, "blue"),

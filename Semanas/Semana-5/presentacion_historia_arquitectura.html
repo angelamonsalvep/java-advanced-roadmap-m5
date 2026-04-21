@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historia y Evolución de la Arquitectura de Software</title>
+    <style>
+        :root {
+            --primary: #0f172a;
+            --secondary: #1e293b;
+            --accent: #f59e0b; /* Amber */
+            --highlight: #10b981; /* Emerald */
+            --text: #f8fafc;
+            --timeline-line: #334155;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background-color: var(--primary);
+            color: var(--text);
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        header {
+            padding: 80px 20px;
+            text-align: center;
+            background: linear-gradient(180deg, #0f172a, #1e293b);
+            border-bottom: 5px solid var(--accent);
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .slide {
+            background-color: var(--secondary);
+            border-radius: 15px;
+            padding: 40px;
+            margin-bottom: 60px;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+        }
+
+        h2 {
+            color: var(--accent);
+            font-size: 2em;
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .year-badge {
+            background: var(--accent);
+            color: var(--primary);
+            padding: 5px 15px;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 0.6em;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 25px 0;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.05);
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid var(--highlight);
+        }
+
+        h3 { color: var(--highlight); margin-top: 0; }
+
+        .usage-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: rgba(255,255,255,0.02);
+        }
+
+        .usage-table th, .usage-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .usage-table th { color: var(--accent); }
+
+        footer {
+            text-align: center;
+            padding: 50px;
+            opacity: 0.6;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Historia de los Patrones de Arquitectura</h1>
+    <p>Del código espagueti a los ecosistemas distribuidos</p>
+</header>
+
+<div class="container">
+
+    <!-- Orígenes -->
+    <section class="slide">
+        <h2><span class="year-badge">1960s - 1970s</span> El Caos y la Modularidad</h2>
+        <p>En los inicios, el software era "Monolítico" y desordenado (Spaghetti Code). El nacimiento de la ingeniería de software en 1968 impulsó la necesidad de orden.</p>
+        <div class="grid">
+            <div class="card">
+                <h3>Programación Estructurada</h3>
+                <p>Se introducen las funciones y procedimientos para romper el código en bloques lógicos, sentando las bases de la separación de intereses.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Nacimiento de MVC -->
+    <section class="slide">
+        <h2><span class="year-badge">1979</span> El Origen del MVC</h2>
+        <p>Trygve Reenskaug introduce el <strong>Model-View-Controller</strong> en Xerox PARC para Smalltalk-80. Su objetivo era resolver el problema de la interacción del usuario con conjuntos de datos complejos.</p>
+        <div class="card">
+            <p><strong>Impacto:</strong> Fue el primer patrón en separar formalmente los datos (Modelo) de la interfaz (Vista), usando un mediador (Controlador).</p>
+        </div>
+    </section>
+
+    <!-- Era Monolítica y Capas -->
+    <section class="slide">
+        <h2><span class="year-badge">1990s - 2000s</span> Arquitectura en Capas</h2>
+        <p>Con el auge de las aplicaciones empresariales (J2EE, .NET), se estandariza la <strong>Arquitectura en N-Capas</strong>.</p>
+        <div class="grid">
+            <div class="card">
+                <h3>Arquitectura en Capas</h3>
+                <p>Divide el sistema en: Presentación, Negocio y Datos. Es la arquitectura "por defecto" para la mayoría de los monolitos modernos por su simplicidad.</p>
+            </div>
+            <div class="card">
+                <h3>SOA (Service Oriented)</h3>
+                <p>El primer intento serio de crear sistemas distribuidos mediante servicios que se comunican por protocolos pesados (SOAP/XML).</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hexagonal y Clean -->
+    <section class="slide">
+        <h2><span class="year-badge">2005 - 2012</span> Aislamiento del Dominio</h2>
+        <p>Alistair Cockburn presenta la <strong>Arquitectura Hexagonal</strong> (2005) y Robert C. Martin la <strong>Clean Architecture</strong> (2012).</p>
+        <div class="card">
+            <p><strong>Filosofía:</strong> El centro de la aplicación es la "Lógica de Negocio" pura. Todo lo demás (BD, UI, APIs externas) son solo detalles que se conectan mediante adaptadores. Esto permite testear la lógica sin necesidad de una base de datos real.</p>
+        </div>
+    </section>
+
+    <!-- Microservicios -->
+    <section class="slide">
+        <h2><span class="year-badge">2014 - Presente</span> Microservicios y Cloud</h2>
+        <p>Gigantes como Netflix y Amazon popularizan los <strong>Microservicios</strong>. El monolito se rompe en cientos de piezas independientes.</p>
+        <div class="grid">
+            <div class="card">
+                <h3>Microservicios</h3>
+                <p>Escalabilidad extrema e independencia tecnológica. Cada servicio es dueño de su propia base de datos.</p>
+            </div>
+            <div class="card">
+                <h3>Serverless / Event-Driven</h3>
+                <p>Arquitecturas que solo se ejecutan cuando ocurre un evento, optimizando costos y recursos al máximo.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Conclusión de Uso -->
+    <section class="slide">
+        <h2 style="border-left: 5px solid var(--highlight);">¿Cuál es la más usada hoy?</h2>
+        <p>No existe una "mejor", sino una "adecuada" según el contexto:</p>
+        <table class="usage-table">
+            <thead>
+                <tr>
+                    <th>Tipo de Aplicación</th>
+                    <th>Arquitectura Predominante</th>
+                    <th>Razón</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>CRUDs / Startups tempranas</td>
+                    <td><strong>MVC / Capas</strong></td>
+                    <td>Velocidad de desarrollo y simplicidad.</td>
+                </tr>
+                <tr>
+                    <td>Sistemas Financieros / Core</td>
+                    <td><strong>Hexagonal / Clean</strong></td>
+                    <td>Alta testeabilidad y seguridad del negocio.</td>
+                </tr>
+                <tr>
+                    <td>E-commerce / Redes Sociales</td>
+                    <td><strong>Microservicios</strong></td>
+                    <td>Necesidad de escalar partes específicas (ej: Pagos).</td>
+                </tr>
+                <tr>
+                    <td>IoT / Notificaciones</td>
+                    <td><strong>Event-Driven</strong></td>
+                    <td>Procesamiento masivo de señales en tiempo real.</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+</div>
+
+<footer>
+    <p>&copy; 2026 - Evolución de la Ingeniería de Software | Módulo 5.1</p>
+</footer>
+
+</body>
+</html>

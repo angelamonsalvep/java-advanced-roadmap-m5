@@ -1,6 +1,13 @@
 package com.riwi;
 
-import com.riwi.notifications.*;
+import com.riwi.notifications.api.NotificationChannel;
+import com.riwi.notifications.enums.AlertLevel;
+import com.riwi.notifications.internal.EmailChannel;
+import com.riwi.notifications.internal.HackerChannel;
+import com.riwi.notifications.internal.SlackChannel;
+import com.riwi.notifications.internal.SmsChannel;
+import com.riwi.notifications.model.MessageLegacy;
+import com.riwi.notifications.model.MessageRecord;
 
 import java.time.LocalDateTime;
 
@@ -21,7 +28,7 @@ public class Main {
 
         boolean equalsL = messageLegacy.equals(messageLegacy2);
         System.out.println("isEqualLegacy: " + equalsL);
-        
+
 
         var messageRecord = new MessageRecord("juanc@riwi.io", "Happy Birthday JuanC", AlertLevel.INFO,
                 LocalDateTime.parse("2023-10-27T10:15:30"));

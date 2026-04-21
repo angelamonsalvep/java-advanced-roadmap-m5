@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MVC Avanzado: POO y Configuración Externa</title>
+    <style>
+        :root {
+            --primary: #1a1a2e;
+            --secondary: #16213e;
+            --accent: #0f3460;
+            --highlight: #e94560;
+            --text-light: #e2e2e2;
+            --code-bg: #000000;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--primary);
+            color: var(--text-light);
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        header {
+            padding: 80px 20px;
+            text-align: center;
+            background: linear-gradient(to bottom, #1a1a2e, #16213e);
+            border-bottom: 2px solid var(--highlight);
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .slide {
+            background-color: var(--secondary);
+            border-radius: 15px;
+            padding: 40px;
+            margin-bottom: 50px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border-left: 5px solid var(--highlight);
+        }
+
+        h2 {
+            color: var(--highlight);
+            font-size: 1.8em;
+            margin-top: 0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        h3 { color: #4e9af1; }
+
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 25px 0;
+        }
+
+        .concept-card {
+            background: rgba(255,255,255,0.05);
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        pre {
+            background: var(--code-bg);
+            color: #dcdcdc;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9em;
+            border: 1px solid #333;
+        }
+
+        .keyword { color: #c678dd; }
+        .string { color: #98c379; }
+        .comment { color: #5c6370; }
+        .type { color: #e5c07b; }
+
+        .badge {
+            background: var(--highlight);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        footer {
+            text-align: center;
+            padding: 50px;
+            opacity: 0.6;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Dominando el Patrón MVC</h1>
+    <p>Sinergia entre POO, Capas de Datos y Arquitectura Profesional</p>
+</header>
+
+<div class="container">
+
+    <!-- Anatomía del MVC -->
+    <section class="slide">
+        <h2>1. Anatomía Profunda de las Capas</h2>
+        <div class="concept-grid">
+            <div class="concept-card">
+                <h3>Modelo (The Source)</h3>
+                <p>No es solo una clase; es un ecosistema. Contiene las <strong>Entidades</strong> (estado), <strong>DAOs</strong> (persistencia) y la lógica que garantiza la integridad de los datos.</p>
+            </div>
+            <div class="concept-card">
+                <h3>Vista (The Face)</h3>
+                <p>Totalmente pasiva. Su única misión es capturar eventos del usuario y presentar datos. <strong>Regla de Oro:</strong> Nunca debe instanciar un DAO ni Connection.</p>
+            </div>
+            <div class="concept-card">
+                <h3>Controlador (The Brain)</h3>
+                <p>Orquestador de flujos. Implementa la lógica de navegación y coordina la comunicación entre la Vista y el Modelo, actuando como un túnel de datos.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Vinculación con POO -->
+    <section class="slide">
+        <h2>2. MVC y los Pilares de la POO</h2>
+        <p>El MVC no es ajeno a la POO; es su aplicación práctica más potente:</p>
+        <ul style="list-style-type: square;">
+            <li><strong>Encapsulamiento:</strong> Cada capa oculta su complejidad. La Vista no sabe que existe SQL; el Modelo no sabe que existe un botón.</li>
+            <li><strong>Abstracción:</strong> Usamos interfaces (ej: <code>ICursoDAO</code>) para definir el "qué" y clases de implementación para el "cómo".</li>
+            <li><strong>Polimorfismo:</strong> Podemos cambiar la implementación de un DAO (de MySQL a Oracle) sin tocar una sola línea de la Vista o el Controlador.</li>
+        </ul>
+        <pre>
+<span class="comment">// Abstracción mediante Interfaz</span>
+<span class="keyword">public interface</span> <span class="type">ICrudDAO</span>&lt;T&gt; {
+    <span class="type">void</span> save(T entity);
+    <span class="type">List</span>&lt;T&gt; findAll();
+}</pre>
+    </section>
+
+    <!-- Configuración con .properties -->
+    <section class="slide">
+        <span class="badge">Buenas Prácticas</span>
+        <h2>3. Externalización: config.properties</h2>
+        <p>Nunca debemos dejar credenciales (User, Pass, URL) "hardcodeadas" en el código. Usar un archivo <code>.properties</code> permite cambiar el entorno sin recompilar la aplicación.</p>
+        
+        <h3>Archivo db.properties:</h3>
+        <pre>
+db.url=jdbc:mysql://localhost:3306/mi_base_datos
+db.user=root
+db.password=secreto123</pre>
+
+        <h3>Carga en Java (Clase DatabaseConnection):</h3>
+        <pre>
+<span class="type">Properties</span> props = <span class="keyword">new</span> <span class="type">Properties</span>();
+<span class="keyword">try</span> (<span class="type">FileInputStream</span> fis = <span class="keyword">new</span> <span class="type">FileInputStream</span>(<span class="string">"db.properties"</span>)) {
+    props.load(fis);
+    <span class="type">String</span> url = props.getProperty(<span class="string">"db.url"</span>);
+    <span class="comment">// Crear conexión...</span>
+}</pre>
+    </section>
+
+    <!-- El Flujo de Datos -->
+    <section class="slide">
+        <h2>4. El Ciclo de Vida de una Petición</h2>
+        <pre>
+1. <span class="keyword">VISTA</span>: Captura input (ej: JOptionPane.showInputDialog).
+2. <span class="keyword">VISTA</span>: Llama al método del <span class="keyword">CONTROLADOR</span> pasando el objeto.
+3. <span class="keyword">CONTROLADOR</span>: Valida los datos básicos.
+4. <span class="keyword">CONTROLADOR</span>: Invoca al <span class="keyword">MODELO (DAO)</span> para persistencia.
+5. <span class="keyword">MODELO</span>: Ejecuta JDBC y retorna confirmación.
+6. <span class="keyword">CONTROLADOR</span>: Recibe respuesta y ordena a la <span class="keyword">VISTA</span> mostrar éxito/error.</pre>
+    </section>
+
+    <!-- Conclusión Técnica -->
+    <section class="slide" style="background: var(--highlight); color: white;">
+        <h2 style="color: white; border-bottom: 2px solid white;">Conclusión Arquitectónica</h2>
+        <p>El MVC profesional no solo divide archivos; divide **responsabilidades mentales**. Al combinarlo con POO sólida y configuración externa, creamos sistemas que están listos para el mundo real: seguros, testeables y fáciles de escalar.</p>
+    </section>
+
+</div>
+
+<footer>
+    <p>&copy; 2026 - Ingeniería de Software Avanzada | Java Roadmap</p>
+</footer>
+
+</body>
+</html>

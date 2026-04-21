@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java GUI: JOptionPane y MVC - Interfaces Modernas</title>
+    <style>
+        :root {
+            --primary: #d35400; /* Java Orange */
+            --secondary: #e67e22;
+            --accent: #2980b9;
+            --text: #ffffff;
+            --bg: #fdfefe;
+            --code-bg: #1e1e1e;
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            background-color: var(--bg);
+            color: #2c3e50;
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--text);
+            padding: 50px 20px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+        .slide {
+            background: #fff;
+            padding: 35px;
+            margin-bottom: 40px;
+            border-radius: 15px;
+            border-top: 6px solid var(--primary);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        h2 { color: var(--primary); margin-top: 0; }
+        h3 { color: var(--accent); }
+
+        .badge {
+            background: var(--accent);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 5px;
+            font-size: 0.85em;
+            text-transform: uppercase;
+        }
+
+        pre {
+            background: var(--code-bg);
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            font-size: 0.95em;
+            line-height: 1.4;
+        }
+
+        .keyword { color: #569cd6; }
+        .string { color: #ce9178; }
+        .comment { color: #6a9955; }
+        .class-name { color: #4ec9b0; }
+
+        .comparison {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .comp-box {
+            flex: 1;
+            padding: 15px;
+            background: #f1f1f1;
+            border-radius: 8px;
+            font-size: 0.9em;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #95a5a6;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Interfaces Gráficas con JOptionPane</h1>
+    <p>Evolución del Patrón MVC hacia entornos visuales en Java</p>
+</header>
+
+<div class="container">
+
+    <!-- Transición a GUI -->
+    <section class="slide">
+        <span class="badge">Concepto</span>
+        <h2>1. De la Consola al Diálogo Gráfico</h2>
+        <p>En el desarrollo corporativo, la interacción mediante <code>Scanner</code> es limitada. <strong>JOptionPane</strong> de la librería <code>javax.swing</code> permite crear cuadros de diálogo modales para entrada y salida de datos sin necesidad de diseñar ventanas complejas.</p>
+        
+        <div class="comparison">
+            <div class="comp-box">
+                <strong>Vista de Consola (Scanner)</strong><br>
+                - Texto plano secuencial.<br>
+                - Difícil validación visual.<br>
+                - Experiencia de usuario rústica.
+            </div>
+            <div class="comp-box">
+                <strong>Vista GUI (JOptionPane)</strong><br>
+                - Ventanas modales emergentes.<br>
+                - Iconos de estado (Error, Info).<br>
+                - Interacción más intuitiva.
+            </div>
+        </div>
+    </section>
+
+    <!-- Captura de Datos -->
+    <section class="slide">
+        <span class="badge">Implementación</span>
+        <h2>2. Captura de Datos Inmutable (Records)</h2>
+        <p>Utilizamos <code>showInputDialog</code> para recibir datos del usuario y los encapsulamos inmediatamente en un <strong>Record</strong> para enviarlos al Controlador.</p>
+        
+        <pre>
+<span class="comment">// Captura de datos en la Vista</span>
+<span class="keyword">String</span> nombre = <span class="class-name">JOptionPane</span>.showInputDialog(<span class="string">"Ingrese el nombre del curso:"</span>);
+<span class="keyword">String</span> duracion = <span class="class-name">JOptionPane</span>.showInputDialog(<span class="string">"Ingrese la duración:"</span>);
+
+<span class="comment">// Empaquetado en Record para el Modelo</span>
+<span class="class-name">Curso</span> nuevoCurso = <span class="keyword">new</span> <span class="class-name">Curso</span>(0, nombre, duracion);</pre>
+    </section>
+
+    <!-- Visualización de Reportes -->
+    <section class="slide">
+        <span class="badge">Visualización</span>
+        <h2>3. Reportes con Text Blocks en GUI</h2>
+        <p>Podemos combinar la potencia de los <strong>Text Blocks</strong> de Java 17 con <code>showMessageDialog</code> para presentar tablas de datos formateadas con fuentes monoespaciadas.</p>
+        
+        <pre>
+<span class="keyword">public void</span> mostrarCursos(<span class="class-name">List</span>&lt;<span class="class-name">Curso</span>&gt; cursos) {
+    <span class="class-name">StringBuilder</span> sb = <span class="keyword">new</span> <span class="class-name">StringBuilder</span>();
+    cursos.forEach(c -> sb.append(<span class="class-name">String</span>.format(<span class="string">"ID: %d | %-20s | %s\n"</span>, 
+        c.id(), c.nombre(), c.duracion())));
+
+    <span class="keyword">String</span> reporte = <span class="string">"""
+        LISTADO DE CURSOS ACTIVOS
+        -----------------------------------
+        """</span> + sb.toString();
+
+    <span class="class-name">JOptionPane</span>.showMessageDialog(<span class="keyword">null</span>, reporte, 
+        <span class="string">"Sistema de Gestión"</span>, <span class="class-name">JOptionPane</span>.INFORMATION_MESSAGE);
+}</pre>
+    </section>
+
+    <!-- Flujo MVC GUI -->
+    <section class="slide">
+        <span class="badge">Arquitectura</span>
+        <h2>4. El Flujo de Control en la GUI</h2>
+        <p>El <strong>Controlador</strong> sigue siendo el cerebro. No importa si los datos vienen de una consola o de un diálogo Swing; la lógica de negocio y el acceso a datos (JDBC) permanecen intactos.</p>
+        
+        <pre>
+<span class="comment">// En el Controller</span>
+<span class="keyword">public void</span> ejecutar() {
+    <span class="keyword">int</span> opcion = <span class="class-name">Integer</span>.parseInt(<span class="class-name">JOptionPane</span>.showInputDialog(<span class="string">"1. Crear\n2. Listar\n3. Salir"</span>));
+    
+    <span class="keyword">switch</span>(opcion) {
+        <span class="keyword">case</span> 1 -> {
+            <span class="class-name">Curso</span> c = vista.pedirDatos(); <span class="comment">// Usa JOptionPane</span>
+            modelo.guardar(c);            <span class="comment">// Usa JDBC</span>
+        }
+        <span class="keyword">case</span> 2 -> {
+            vista.mostrarCursos(modelo.listar()); 
+        }
+    }
+}</pre>
+    </section>
+
+    <!-- Ventajas Técnicas -->
+    <section class="slide" style="background: #2c3e50; color: #ecf0f1;">
+        <h2 style="color: #3498db;">Ventajas de la Integración</h2>
+        <ul>
+            <li><strong>Desacoplamiento:</strong> Cambiar de <code>Scanner</code> a <code>JOptionPane</code> solo afecta a la capa de la Vista.</li>
+            <li><strong>Validación:</strong> Facilidad para manejar entradas nulas o cancelaciones mediante las respuestas de los diálogos.</li>
+            <li><strong>Estándar Corporativo:</strong> Es el primer paso antes de migrar a interfaces más complejas como JavaFX o Aplicaciones Web.</li>
+        </ul>
+    </section>
+
+</div>
+
+<footer>
+    <p>&copy; 2026 - Módulo 5.1: Java Avanzado | Evolución a Interfaces Gráficas</p>
+</footer>
+
+</body>
+</html>

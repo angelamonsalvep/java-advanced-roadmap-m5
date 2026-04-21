@@ -1,4 +1,6 @@
-package com.riwi.notifications;
+package com.riwi.notifications.model;
+
+import com.riwi.notifications.enums.AlertLevel;
 
 import java.time.LocalDateTime;
 

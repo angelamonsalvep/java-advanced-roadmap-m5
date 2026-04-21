@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Masterclass: JDBC Moderno y Patrón DAO</title>
+    <style>
+        :root {
+            --primary-color: #00d4ff;
+            --accent-color: #0056b3;
+            --bg-color: #0d1117;
+            --slide-bg: #161b22;
+            --text-color: #c9d1d9;
+            --code-bg: #010409;
+            --title-color: #58a6ff;
+            --highlight: #f0883e;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            overflow: hidden;
+        }
+
+        .container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            transition: transform 0.6s cubic-bezier(0.85, 0, 0.15, 1);
+        }
+
+        section {
+            min-width: 100vw;
+            height: 100vh;
+            display: grid;
+            grid-template-rows: auto 1fr auto;
+            padding: 60px 10%;
+            box-sizing: border-box;
+            background-color: var(--slide-bg);
+            border-right: 1px solid #30363d;
+        }
+
+        .header {
+            text-align: left;
+            border-bottom: 2px solid var(--primary-color);
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 3rem;
+            color: var(--title-color);
+            margin: 0 0 10px 0;
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            color: var(--primary-color);
+            margin: 0;
+        }
+
+        .content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            font-size: 1.25rem;
+            line-height: 1.6;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 15px;
+        }
+
+        .code-block {
+            background-color: var(--code-bg);
+            padding: 20px;
+            border-radius: 12px;
+            font-family: 'Fira Code', 'Courier New', monospace;
+            font-size: 0.95rem;
+            border: 1px solid #30363d;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            overflow-x: auto;
+        }
+
+        .important {
+            background: rgba(240, 136, 62, 0.1);
+            border-left: 4px solid var(--highlight);
+            padding: 15px;
+            margin: 20px 0;
+        }
+
+        .controls {
+            position: fixed;
+            bottom: 30px;
+            right: 50px;
+            display: flex;
+            gap: 15px;
+            z-index: 100;
+        }
+
+        button {
+            background-color: #21262d;
+            color: var(--text-color);
+            border: 1px solid #30363d;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        button:hover {
+            background-color: #30363d;
+            border-color: #8b949e;
+        }
+
+        .slide-info {
+            position: fixed;
+            bottom: 35px;
+            left: 50px;
+            font-family: monospace;
+            opacity: 0.6;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 4px 12px;
+            background: var(--accent-color);
+            color: white;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="slider">
+        <!-- Slide 0: Portada -->
+        <section>
+            <div></div>
+            <div class="content" style="text-align: center;">
+                <span class="tag">Java Advanced - Semana 5</span>
+                <h1 style="font-size: 4rem;">Persistencia Avanzada</h1>
+                <h2 style="color: var(--text-color); font-weight: 300;">JDBC Moderno, Seguridad & Arquitectura DAO</h2>
+                <p style="margin-top: 40px; opacity: 0.8;">Guía detallada para la construcción de capas de datos profesionales.</p>
+            </div>
+            <div></div>
+        </section>
+
+        <!-- Slide 1: El Puente JDBC -->
+        <section>
+            <div class="header">
+                <h2>El Estándar JDBC</h2>
+            </div>
+            <div class="content">
+                <div class="grid-2">
+                    <div>
+                        <p>JDBC (Java Database Connectivity) no es solo una librería; es una <strong>capa de abstracción</strong> que permite a Java hablar con cualquier base de datos relacional.</p>
+                        <ul>
+                            <li><strong>Independencia del Motor:</strong> El mismo código Java puede funcionar en MySQL, PostgreSQL u Oracle (cambiando solo el Driver).</li>
+                            <li><strong>Drivers:</strong> Son implementaciones específicas (JARs) que actúan como "traductores" entre las llamadas de Java y el protocolo nativo de la DB.</li>
+                            <li><strong>Conectividad:</strong> Maneja desde la autenticación hasta el envío de bytes sobre la red.</li>
+                        </ul>
+                    </div>
+                    <div class="code-block">
+                        // Estructura de una URL JDBC<br>
+                        jdbc:postgresql://localhost:5432/mi_db<br><br>
+                        // Dependencia Maven (Ejemplo)<br>
+                        &lt;dependency&gt;<br>
+                        &nbsp;&nbsp;&lt;groupId&gt;org.postgresql&lt;/groupId&gt;<br>
+                        &nbsp;&nbsp;&lt;artifactId&gt;postgresql&lt;/artifactId&gt;<br>
+                        &nbsp;&nbsp;&lt;version&gt;42.7.2&lt;/version&gt;<br>
+                        &lt;/dependency&gt;
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 2: La Evolución del Cierre de Recursos -->
+        <section>
+            <div class="header">
+                <h2>Adiós al Bloque Finally</h2>
+            </div>
+            <div class="content">
+                <div class="grid-2">
+                    <div>
+                        <h3>Legacy (Pre Java 7)</h3>
+                        <div class="code-block" style="font-size: 0.8rem;">
+                            Connection c = null;<br>
+                            try {<br>
+                            &nbsp;&nbsp;c = ...<br>
+                            } catch(Exception e) { ... }<br>
+                            finally {<br>
+                            &nbsp;&nbsp;if (c != null) try { c.close(); }<br>
+                            &nbsp;&nbsp;catch (Exception e) { ... }<br>
+                            }<br>
+                        </div>
+                        <p style="font-size: 0.9rem;">⚠️ Propenso a <strong>Memory Leaks</strong>. Si el cierre fallaba, la conexión quedaba "huérfana".</p>
+                    </div>
+                    <div>
+                        <h3>Moderno (Java 17+)</h3>
+                        <div class="code-block">
+                            try (Connection c = getConn()) {<br>
+                            &nbsp;&nbsp;// Operaciones aquí<br>
+                            } catch (SQLException e) {<br>
+                            &nbsp;&nbsp;// Manejo de errores<br>
+                            }<br>
+                            // ¡Cierre garantizado aquí!
+                        </div>
+                        <p style="font-size: 0.9rem;">✅ <strong>Try-with-Resources:</strong> Implementa la interfaz <code>AutoCloseable</code>. Más limpio y 100% seguro.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 3: Patrón DAO (Arquitectura) -->
+        <section>
+            <div class="header">
+                <h2>Patrón DAO: Separación de Responsabilidades</h2>
+            </div>
+            <div class="content">
+                <div class="important">
+                    <strong>Definición:</strong> El Data Access Object (DAO) abstrae y encapsula todo el acceso a la fuente de datos.
+                </div>
+                <div class="grid-2">
+                    <ul>
+                        <li><strong>Desacoplamiento:</strong> La lógica de negocio no sabe si usas JDBC, un archivo o un API externa.</li>
+                        <li><strong>Mantenibilidad:</strong> Si la base de datos cambia su estructura, solo modificas la clase DAO, no toda la App.</li>
+                        <li><strong>Testabilidad:</strong> Permite usar "Mocks" para probar la lógica de negocio sin tener una base de datos real encendida.</li>
+                    </ul>
+                    <div class="code-block">
+                        // El Contrato (Interface)<br>
+                        public interface UserDAO {<br>
+                        &nbsp;&nbsp;User findById(Long id);<br>
+                        &nbsp;&nbsp;void save(User u);<br>
+                        }<br><br>
+                        // La Implementación<br>
+                        public class UserDAOImpl implements UserDAO { ... }
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 4: Seguridad: El ataque de Inyección SQL -->
+        <section>
+            <div class="header">
+                <h2>Seguridad: Inyección SQL</h2>
+            </div>
+            <div class="content">
+                <div class="grid-2">
+                    <div>
+                        <h3>El Peligro: Concatenación</h3>
+                        <div class="code-block">
+                            String sql = "SELECT * FROM users WHERE pass = '" + input + "'";
+                        </div>
+                        <p>Si el usuario escribe: <code>' OR '1'='1</code></p>
+                        <p>El query se convierte en:<br>
+                        <code style="color: var(--highlight);">SELECT * FROM users WHERE pass = '' OR '1'='1'</code></p>
+                        <p><strong>Resultado:</strong> El atacante entra sin contraseña.</p>
+                    </div>
+                    <div>
+                        <h3>La Solución: PreparedStatement</h3>
+                        <div class="code-block">
+                            String sql = "SELECT * FROM users WHERE pass = ?";<br>
+                            PreparedStatement ps = conn.prepareStatement(sql);<br>
+                            ps.setString(1, input);
+                        </div>
+                        <ul>
+                            <li><strong>Pre-compilación:</strong> La DB ya sabe qué es código y qué es dato.</li>
+                            <li><strong>Escapado Automático:</strong> El input se trata como texto literal, nunca como código ejecutable.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 5: Ciclo de Vida y Connection Pooling -->
+        <section>
+            <div class="header">
+                <h2>Connection Pooling: El Estándar Pro</h2>
+            </div>
+            <div class="content">
+                <p>Abrir una conexión física a la DB es <strong>COSTOSO</strong> (negociación TCP, autenticación, handshake SSL).</p>
+                <div class="grid-2">
+                    <ul>
+                        <li><strong>¿Cómo funciona?</strong> La aplicación mantiene un "pool" de conexiones ya abiertas y listas para usar.</li>
+                        <li><strong>Ciclo:</strong> Pides una -> La usas -> La "devuelves" al pool (no se cierra físicamente).</li>
+                        <li><strong>Herramientas:</strong> <strong>HikariCP</strong> es el estándar de facto en Java por su increíble velocidad.</li>
+                    </ul>
+                    <div class="important" style="margin-top: 0;">
+                        💡 <strong>Dato curioso:</strong> Abrir una conexión nueva puede tardar 50ms-100ms. Tomar una del pool tarda &lt;1ms.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 6: El Mapeo (ResultSet to POJO) -->
+        <section>
+            <div class="header">
+                <h2>Mapping: Del Mundo Relacional al Mundo de Objetos</h2>
+            </div>
+            <div class="content">
+                <p>Las bases de datos devuelven tablas; Java usa objetos. El DAO debe realizar esta traducción.</p>
+                <div class="code-block">
+                    try (ResultSet rs = ps.executeQuery()) {<br>
+                    &nbsp;&nbsp;if (rs.next()) {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;return new User(<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rs.getLong("id"),<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rs.getString("username"),<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rs.getTimestamp("created_at").toLocalDateTime()<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;);<br>
+                    &nbsp;&nbsp;}<br>
+                    }
+                </div>
+                <p style="font-size: 1rem; margin-top: 20px;">Este proceso manual es lo que automatizan los <strong>ORMs</strong> como Hibernate o JPA en etapas posteriores.</p>
+            </div>
+        </section>
+
+        <!-- Slide 7: Resumen y Mejores Prácticas -->
+        <section>
+            <div class="header">
+                <h2>Checklist del Desarrollador Java</h2>
+            </div>
+            <div class="content">
+                <div class="grid-2">
+                    <ul style="font-size: 1.5rem;">
+                        <li>🚀 <strong>Eficiencia:</strong> Usa Connection Pools.</li>
+                        <li>🛡️ <strong>Seguridad:</strong> NUNCA concatenes Strings en SQL.</li>
+                        <li>🧹 <strong>Limpieza:</strong> Siempre usa Try-with-resources.</li>
+                        <li>🏗️ <strong>Arquitectura:</strong> Separa tus DAOs del resto del código.</li>
+                        <li>⚖️ <strong>Consistencia:</strong> Aprende ACID y gestiona transacciones (commit/rollback).</li>
+                    </ul>
+                    <div style="text-align: center;">
+                        <div style="font-size: 5rem;">🚀</div>
+                        <p>¿Listos para el Livecoding?</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div class="slide-info" id="slideInfo">1 / 8</div>
+
+    <div class="controls">
+        <button onclick="prevSlide()">← Anterior</button>
+        <button onclick="nextSlide()">Siguiente →</button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const totalSlides = 8;
+        const slider = document.getElementById('slider');
+        const slideInfo = document.getElementById('slideInfo');
+
+        function updateSlide() {
+            slider.style.transform = `translateX(-${currentSlide * 100}vw)`;
+            slideInfo.innerText = `${currentSlide + 1} / ${totalSlides}`;
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                currentSlide++;
+                updateSlide();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateSlide();
+            }
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') nextSlide();
+            if (e.key === 'ArrowLeft') prevSlide();
+        });
+    </script>
+</body>
+</html>
