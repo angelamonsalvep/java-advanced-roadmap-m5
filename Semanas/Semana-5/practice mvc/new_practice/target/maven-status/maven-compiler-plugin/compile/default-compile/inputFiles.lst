@@ -1,0 +1,13 @@
+/home/angela-monsalve/Documentos/RA JAVA/Módulo 5.1 - Java SE/Java 1.0/java-advanced-roadmap/Semanas/Semana-5/practice mvc/new_practice/src/main/java/com/app/dao/GenericDAO.java
+/home/angela-monsalve/Documentos/RA JAVA/Módulo 5.1 - Java SE/Java 1.0/java-advanced-roadmap/Semanas/Semana-5/practice mvc/new_practice/src/main/java/com/app/controller/UsuarioController.java
+/home/angela-monsalve/Documentos/RA JAVA/Módulo 5.1 - Java SE/Java 1.0/java-advanced-roadmap/Semanas/Semana-5/practice mvc/new_practice/src/main/java/com/app/view/BaseView.java
+/home/angela-monsalve/Documentos/RA JAVA/Módulo 5.1 - Java SE/Java 1.0/java-advanced-roadmap/Semanas/Semana-5/practice mvc/new_practice/src/main/java/com/app/dao/impl/UsuarioDAOImpl.java
+/home/angela-monsalve/Documentos/RA JAVA/Módulo 5.1 - Java SE/Java 1.0/java-advanced-roadmap/Semanas/Semana-5/practice mvc/new_practice/src/main/java/com/app/config/AppConfig.java
+/home/angela-monsalve/Documentos/RA JAVA/Módulo 5.1 - Java SE/Java 1.0/java-advanced-roadmap/Semanas/Semana-5/practice mvc/new_practice/src/main/java/com/app/Main.java
+/home/angela-monsalve/Documentos/RA JAVA/Módulo 5.1 - Java SE/Java 1.0/java-advanced-roadmap/Semanas/Semana-5/practice mvc/new_practice/src/main/java/com/app/model/entity/Usuario.java
+/home/angela-monsalve/Documentos/RA JAVA/Módulo 5.1 - Java SE/Java 1.0/java-advanced-roadmap/Semanas/Semana-5/practice mvc/new_practice/src/main/java/com/app/view/SwingView.java
+/home/angela-monsalve/Documentos/RA JAVA/Módulo 5.1 - Java SE/Java 1.0/java-advanced-roadmap/Semanas/Semana-5/practice mvc/new_practice/src/main/java/com/app/view/View.java
+/home/angela-monsalve/Documentos/RA JAVA/Módulo 5.1 - Java SE/Java 1.0/java-advanced-roadmap/Semanas/Semana-5/practice mvc/new_practice/src/main/java/com/app/dao/impl/GenericDAOImpl.java
+/home/angela-monsalve/Documentos/RA JAVA/Módulo 5.1 - Java SE/Java 1.0/java-advanced-roadmap/Semanas/Semana-5/practice mvc/new_practice/src/main/java/com/app/dao/UsuarioDAO.java
+/home/angela-monsalve/Documentos/RA JAVA/Módulo 5.1 - Java SE/Java 1.0/java-advanced-roadmap/Semanas/Semana-5/practice mvc/new_practice/src/main/java/com/app/view/ConsoleView.java
+/home/angela-monsalve/Documentos/RA JAVA/Módulo 5.1 - Java SE/Java 1.0/java-advanced-roadmap/Semanas/Semana-5/practice mvc/new_practice/src/main/java/com/app/db/ConnectionManager.java

@@ -1,0 +1,13 @@
+com/app/view/SwingView.class
+com/app/Main.class
+com/app/view/ConsoleView.class
+com/app/dao/GenericDAO.class
+com/app/model/entity/Usuario.class
+com/app/view/View.class
+com/app/dao/impl/GenericDAOImpl.class
+com/app/dao/UsuarioDAO.class
+com/app/controller/UsuarioController.class
+com/app/db/ConnectionManager.class
+com/app/config/AppConfig.class
+com/app/dao/impl/UsuarioDAOImpl.class
+com/app/view/BaseView.class
